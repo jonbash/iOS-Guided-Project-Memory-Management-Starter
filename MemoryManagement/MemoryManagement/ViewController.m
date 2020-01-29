@@ -61,12 +61,26 @@
     [jim release]; // jim: 0 -- cleaned up
     jim = nil;
 
-    Car *honda = [[Car alloc] initWithMake:@"Civic"];
+    Car *honda = [Car carWithMake:@"Civic"];
     Person *elie = [[Person alloc] initWithCar:honda];
-    [honda release];
+    [elie autorelease];
 
-    [elie release];
-    elie = nil;
+    // auto released, or no?
+    NSString *name = [NSString stringWithFormat:@"%@ %@", @"John", @"Miller"]; // yes
+    NSDate *today = [NSDate date]; // yes
+    NSDate *now = [NSDate new]; // no
+    NSDate *tomorrow2 = [NSDate dateWithTimeIntervalSinceNow:60*60*24]; // yes
+    NSDate *nextTomorrow = [tomorrow2 copy]; // retain: 1 // no
+    NSArray *words = [@"This sentence is the bomb" componentsSeparatedByString:@" "]; // yes
+    NSString *idea = [[NSString alloc] initWithString:@"Hello Ideas"]; // no
+    Car *redCar = [Car carWithMake:@"Civic"]; // yes
+    NSString *idea2 = [[[NSString alloc] initWithString:@"Hello Ideas"] autorelease]; // yes
+    NSString *idea3 = [[NSString alloc] initWithString:@"Hello Ideas"]; // not yet...
+    [idea3 autorelease]; // ...now, yes!
+
+    [now release];
+    [nextTomorrow release];
+    [idea release];
 }
 
 - (void)dealloc {

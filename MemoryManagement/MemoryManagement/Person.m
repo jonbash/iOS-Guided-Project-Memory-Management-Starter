@@ -29,9 +29,10 @@
 }
 
 - (void)setCar:(Car *)car {
-    [_car release];
-    _car = car;
-    [_car retain];
+    if (_car && car != _car) {
+        [_car release];
+        _car = [car retain];
+    }
 }
 
 @end
